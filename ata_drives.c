@@ -11,6 +11,8 @@
 
 #include "ata_drives.h"
 
+
+//
 int openDrive(const char* drivePath, int* fd)
 {
     if (geteuid() >  0)
@@ -30,6 +32,8 @@ int openDrive(const char* drivePath, int* fd)
 return 0;
 }
 
+
+//
 int setFeature(int fd, int feature)
 {
     printf("Setting feature %d for %d\n", feature, fd);
@@ -46,14 +50,12 @@ int setFeature(int fd, int feature)
         cmdblk[1]    = 0x6;    // SG_ATA_PROTO_NON_DATA 
         cmdblk[2]    = 0x20;   // SG_CDB2_CHECK_COND
         cmdblk[4]    = feature;
-//        cmdblk[4]    = 0x82;   // SETFEATURES_DIS_WCACHE;
         cmdblk[6]    = 0;
         cmdblk[8]    = 0;
         cmdblk[10]   = 0;
         cmdblk[12]   = 0;
         cmdblk[13]   = 0x40;
         cmdblk[14]   = ATA_OP_SETFEATURES;
-//        cmdblk[14]   = 0xef;   //WIN_SETFEATURES;
 
         sg_io_hdr_t sghdr;
         bzero(&sghdr, sizeof(sg_io_hdr_t));
@@ -80,7 +82,8 @@ int setFeature(int fd, int feature)
 return 0;
 }
 
-/*
+
+//
 int getFeature(int fd, int feature)
 {
     unsigned char inqCmdBlk[16];
@@ -117,8 +120,13 @@ int getFeature(int fd, int feature)
     sg.sbp = sense_buffer;
     sg.timeout = SCSI_DEFAULT_TIMEOUT;
 
-    if (ioctl(fd, SG_IO, &sg) < 0)
-        error(1, errno, "couldn't inquire %s", argv[1]);
+    unsigned long int err;
+    err = ioctl(fd, SG_IO, &sg);
+    if(err)
+    {
+        printf("Error = %d\n", err);
+        perror("ioctl(SG_IO)");
+    }
     else
     {
        printf("inquire ok\n");
@@ -126,6 +134,5 @@ int getFeature(int fd, int feature)
     }
 
 
-exit(0);
+return 0;
 }
-*/

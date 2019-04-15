@@ -15,7 +15,12 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    if ( setFeature(fd, SETFEATURES_DIS_WCACHE) != 0)
+    if ( setFeature(fd, SETFEATURES_DIS_WCACHE) != 0 )
+    {
+        printf("setFeature return error\n");
+    }
+
+    if ( getFeature(fd, 0) != 0 )
     {
         printf("setFeature return error\n");
     }
