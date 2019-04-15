@@ -16,22 +16,24 @@ int openDrive(const char* drivePath, int* fd)
     if (geteuid() >  0)
     {
         printf("ERROR: Must be root to use\n");
-        exit(1);
+        return 1;
     }
 
     if ((*fd = open(drivePath, O_RDWR)) < 0)
     {
         printf("ERROR: Cannot open device %s\n", drivePath); 
-        exit(1);
+        return 1;
     }
 
     printf("Drive opened: %s\n", drivePath);
 
-exit(0);
+return 0;
 }
 
 int setFeature(int fd, int feature)
 {
+    printf("Setting feature %d for %d\n", feature, fd);
+
         unsigned char senseBuf[32];
 
         unsigned char buf[512];
@@ -75,7 +77,7 @@ int setFeature(int fd, int feature)
             perror("ioctl(SG_IO)");
         }
 
-exit(0);
+return 0;
 }
 
 /*

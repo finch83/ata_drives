@@ -11,10 +11,14 @@ int main(int argc, char *argv[])
 
     if ( openDrive(argv[1], &fd) != 0 )
     {
+        printf("Exited: openDrive return error\n");
         exit(1);
     }
 
-    setFeature(fd, SETFEATURES_DIS_WCACHE);
+    if ( setFeature(fd, SETFEATURES_DIS_WCACHE) != 0)
+    {
+        printf("setFeature return error\n");
+    }
 
 
 exit(0);
