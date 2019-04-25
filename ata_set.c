@@ -15,7 +15,20 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    if ( setFeature(fd, SETFEATURES_DIS_WCACHE) != 0 )
+    unsigned char set_cache = 0;
+    if ( 3 == argc )
+    {
+        set_cache = (argv[2][0] - '0') == 0 ?
+                    SETFEATURES_DIS_WCACHE :
+                    SETFEATURES_EN_WCACHE;
+        printf("%sabling cahche\n", set_cache==SETFEATURES_DIS_WCACHE ? "Dis" : "En");
+    }
+    else
+    {
+        printf("Disable cache by default\n");
+    }
+
+    if ( setFeature(fd, set_cache) != 0 )
     {
         printf("setFeature return error\n");
     }
