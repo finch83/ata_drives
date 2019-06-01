@@ -6,4 +6,7 @@
 
 int setFeature(int fd, int feature);
 int getFeature(int fd, int feature);
+int getFeature1(int fd, int feature);
+int getFeature2(int fd, int feature);
+int getFeature3(int fd, int feature);
 int openDrive(const char* drivePath, int* fd);

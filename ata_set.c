@@ -7,6 +7,10 @@
 
 int main(int argc, char *argv[])
 {
+    unsigned char shift = 0;
+    shift |= 1 << 7;
+    printf("Shift: %d\n", shift);
+
     int fd;
 
     if ( openDrive(argv[1], &fd) != 0 )
@@ -33,10 +37,11 @@ int main(int argc, char *argv[])
         printf("setFeature return error\n");
     }
 
-    if ( getFeature(fd, 0) != 0 )
+    if ( getFeature3(fd, 0) != 0 )
     {
         printf("setFeature return error\n");
     }
+
 
 
 exit(0);
